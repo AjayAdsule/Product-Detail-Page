@@ -1,11 +1,11 @@
-import axios, { type AxiosResponse } from "axios";
+import axios, { type AxiosResponse } from 'axios';
 
 export const httpMethods = {
-  get: "GET",
-  post: "POST",
-  patch: "PATCH",
-  put: "PUT",
-  delete: "DELETE",
+  get: 'GET',
+  post: 'POST',
+  patch: 'PATCH',
+  put: 'PUT',
+  delete: 'DELETE',
 } as const;
 
 export type HttpMethod = (typeof httpMethods)[keyof typeof httpMethods];
@@ -19,14 +19,14 @@ interface HttpRequestProps<T = unknown, U = unknown> {
 }
 
 const api = axios.create({
-  baseURL: "https://fakestoreapi.com",
+  baseURL: 'https://fakestoreapi.com',
   headers: {
-    Accept: "application/json, text/plain",
+    Accept: 'application/json, text/plain',
   },
 });
 
 const httpRequest = async <R, T = unknown, U = unknown>({
-  url = "",
+  url = '',
   method = httpMethods.get,
   options,
   payload,
