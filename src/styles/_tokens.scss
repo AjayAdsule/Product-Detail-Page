@@ -34,16 +34,13 @@ $font-bold: 700;
 
 // spacing
 
-$space-1: 4px;
-$space-2: 8px;
-$space-3: 12px;
-$space-4: 16px;
-$space-5: 20px;
-$space-6: 24px;
-$space-8: 32px;
-$space-10: 40px;
-$space-12: 48px;
-$space-16: 64px;
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
 
 // Border radius
 
@@ -65,4 +62,4 @@ $mobile: 767px;
 $tablet: 1024px;
 $desktop: 1280px;
 
-$container-width: 1280px;
+$container-width: 1360px;

@@ -1,5 +1,5 @@
 // src/styles/global.scss
-
+@use './mixins' as *;
 @use './tokens' as *;
 
 * {
@@ -35,5 +35,9 @@ a {
 .container {
   max-width: $container-width;
   margin: 0 auto;
-  padding-inline: $space-6;
+  padding: $spacing-md;
+
+  @include mobile {
+    padding: 0 $spacing-md;
+  }
 }
