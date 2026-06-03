@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { ProductDetailPageProvider } from '../../stores/ProductDetails/ProductDetailConext';
 import ProductInfo from '../../components/ProductDetailPage/ProductInfo';
 import ImageGallery from '../../components/ProductDetailPage/ImageGallery';
+import ProductDetails from '../../components/ProductDetailPage/ProductDetails';
 
 export const Route = createFileRoute('/product/$productId')({
   component: RouteComponent,
@@ -59,6 +60,47 @@ function RouteComponent() {
             />
           </div>
         </div>
+        <ProductDetails
+          description="The SummitX Alpine Expedition Backpack is engineered for serious adventurers..."
+          specifications={[
+            {
+              label: 'Capacity',
+              value: '65 Liters',
+            },
+            {
+              label: 'Weight',
+              value: '4.2 lbs',
+            },
+            {
+              label: 'Material',
+              value: '210D Ripstop Nylon',
+            },
+            {
+              label: 'Waterproof Rating',
+              value: 'IPX4',
+            },
+          ]}
+          reviews={[
+            {
+              id: 1,
+              name: 'Sarah Johnson',
+              rating: 5,
+              comment: 'Excellent backpack. Comfortable even on long hikes.',
+            },
+            {
+              id: 2,
+              name: 'Mark Peterson',
+              rating: 4,
+              comment: 'Great build quality and storage options.',
+            },
+            {
+              id: 3,
+              name: 'Emily Davis',
+              rating: 5,
+              comment: 'Used it on a 5-day trek and it performed perfectly.',
+            },
+          ]}
+        />
       </main>
     </ProductDetailPageProvider>
   );

@@ -5,6 +5,19 @@
   display: flex;
   flex-direction: column;
   gap: $spacing-lg;
+  padding: $spacing-lg;
+  background: $white;
+
+  @include mobile {
+    padding: $spacing-md;
+    gap: $spacing-md;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
 }
 
 .brand {
@@ -21,85 +34,169 @@
   font-weight: $font-bold;
   color: $text-primary;
   line-height: 1.2;
-  margin: $spacing-xs 0 0;
+  margin: 0;
+
+  @include mobile {
+    font-size: $text-xl;
+  }
 }
 
-.priceBlock {
+.rating {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
 }
 
-.salePrice {
-  font-size: $text-xl;
-  font-weight: $font-bold;
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  width: 16px;
+  height: 16px;
   color: $warning;
 }
 
-.originalPrice {
-  font-size: $text-md;
-  font-weight: $font-regular;
-  color: $text-secondary;
-  text-decoration: line-through;
-}
-
-.regularPrice {
-  font-size: $text-xl;
-  font-weight: $font-bold;
+.ratingScore {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
   color: $text-primary;
 }
 
+.ratingCount {
+  font-size: $text-sm;
+  color: $text-secondary;
+}
+
+// DIVIDER
 .divider {
   border: none;
   border-top: 1px solid $border;
   margin: 0;
 }
 
+// PRICE SECTION
+.priceSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.priceBlock {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}
+
+.salePrice {
+  font-size: $text-3xl;
+  font-weight: $font-bold;
+  color: $primary;
+
+  @include mobile {
+    font-size: $text-2xl;
+  }
+}
+
+.originalPrice {
+  font-size: $text-lg;
+  font-weight: $font-regular;
+  color: $text-secondary;
+  text-decoration: line-through;
+
+  @include mobile {
+    font-size: $text-md;
+  }
+}
+
+.regularPrice {
+  font-size: $text-3xl;
+  font-weight: $font-bold;
+  color: $text-primary;
+
+  @include mobile {
+    font-size: $text-2xl;
+  }
+}
+
+.badge {
+  padding: $spacing-xs $spacing-sm;
+  background: $error;
+  color: $white;
+  font-size: $text-xs;
+  font-weight: $font-semibold;
+  border-radius: $radius-full;
+}
+
+// COLOR SWATCHES SECTION
+.colorSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
 .sectionLabel {
   font-size: $text-sm;
   font-weight: $font-semibold;
   color: $text-primary;
-  margin: 0 0 $spacing-sm;
+  margin: 0;
+  display: flex;
+  gap: $spacing-xs;
 
   span {
     font-weight: $font-regular;
     color: $text-secondary;
-    margin-left: $spacing-xs;
   }
 }
 
 .swatches {
   display: flex;
-  gap: $spacing-sm;
+  gap: $spacing-md;
   flex-wrap: wrap;
+
+  @include mobile {
+    gap: $spacing-sm;
+  }
 }
 
 .swatch {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: $radius-full;
   border: 2px solid transparent;
   cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    transform 0.15s ease;
   padding: 0;
   background: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+  flex-shrink: 0;
 
   &:hover {
-    transform: scale(1.08);
+    transform: scale(1.1);
   }
 
   &.swatchActive {
-    border-color: $warning;
-    outline: 2px solid $warning;
-    outline-offset: 2px;
+    border-color: $primary;
+    box-shadow:
+      0 0 0 2px $white,
+      0 0 0 4px $primary;
   }
 
   &:focus-visible {
     outline: 2px solid $primary;
-    outline-offset: 3px;
+    outline-offset: 2px;
   }
+}
+
+// SIZE BUTTONS SECTION
+.sizeSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
 }
 
 .sizes {
@@ -108,41 +205,290 @@
   flex-wrap: wrap;
 }
 
+.sizeButton {
+  min-width: 48px;
+  height: 48px;
+  padding: 0 $spacing-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $white;
+  color: $text-primary;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    border-color: $primary;
+    box-shadow: $shadow-sm;
+  }
+
+  &.sizeActive {
+    background: $primary;
+    color: $white;
+    border-color: $primary;
+  }
+
+  // LOW STOCK STATE
+  &.sizeLowStock {
+    border-color: $warning;
+    color: $warning;
+  }
+
+  &.sizeLowStock.sizeActive {
+    background: $warning;
+    color: $white;
+    border-color: $warning;
+  }
+
+  // SOLD OUT STATE
+  &.sizeSoldOut {
+    background: $surface;
+    color: $text-secondary;
+    border-color: $border;
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: line-through;
+
+    &:hover {
+      border-color: $border;
+      box-shadow: none;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  @include mobile {
+    min-width: 44px;
+    height: 44px;
+    padding: 0 $spacing-sm;
+    font-size: $text-xs;
+  }
+}
+
 .lowStockNote {
   font-size: $text-xs;
   color: $warning;
-  margin-top: $spacing-xs;
+  font-weight: $font-semibold;
+  margin: 0;
+}
+
+// QUANTITY SECTION
+.quantitySection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
 }
 
 .quantityBlock {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
+  width: fit-content;
 }
 
-.quantityValue {
-  width: 48px;
-  height: 36px;
+.quantityButton {
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: $text-sm;
-  font-weight: $font-medium;
+  font-size: $text-lg;
+  font-weight: $font-bold;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $white;
+  color: $text-primary;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    border-color: $primary;
+    background: $surface;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @include mobile {
+    width: 36px;
+    height: 36px;
+    font-size: $text-md;
+  }
+}
+
+.quantityValue {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $text-md;
+  font-weight: $font-semibold;
   color: $text-primary;
   border: 1px solid $border;
   border-radius: $radius-sm;
   background: $white;
   user-select: none;
+
+  @include mobile {
+    width: 52px;
+    height: 36px;
+  }
 }
 
+// CART SECTION
 .cartSection {
   display: flex;
   flex-direction: column;
+  gap: $spacing-md;
+  padding-top: $spacing-md;
+}
+
+.addToCartButton {
+  width: 100%;
+  height: 48px;
+  padding: 0;
+  font-size: $text-md;
+  font-weight: $font-semibold;
+  border-radius: $radius-sm;
+  background: $primary;
+  color: $white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: $spacing-sm;
+
+  &:hover:not(:disabled) {
+    box-shadow: $shadow-md;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    background: $surface;
+    color: $text-secondary;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  &.loading {
+    position: relative;
+    pointer-events: none;
+  }
+
+  &.success {
+    background: $success;
+  }
+
+  @include mobile {
+    height: 44px;
+    font-size: $text-sm;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: $white;
+  border-radius: $radius-full;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// DELIVERY SECTION
+.deliverySection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border;
+}
+
+.deliveryEstimate {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+}
+
+.deliveryIcon {
+  width: 20px;
+  height: 20px;
+  color: $primary;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.deliveryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deliveryDate {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-primary;
+  margin: 0;
 }
 
 .deliveryNote {
   font-size: $text-xs;
   color: $text-secondary;
+  margin: 0;
+}
+
+// TRUST BADGES SECTION
+.trustBadges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-sm;
+  }
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $surface;
+  border-radius: $radius-sm;
   text-align: center;
+}
+
+.badgeIcon {
+  width: 20px;
+  height: 20px;
+  color: $primary;
+}
+
+.badgeText {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-primary;
+  margin: 0;
 }
