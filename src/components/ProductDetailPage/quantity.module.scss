@@ -1,0 +1,67 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
+.quantitySection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.quantityBlock {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  width: fit-content;
+}
+
+.quantityButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $text-lg;
+  font-weight: $font-bold;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $white;
+  color: $text-primary;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    border-color: $primary;
+    background: $surface;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @include mobile {
+    width: 36px;
+    height: 36px;
+    font-size: $text-md;
+  }
+}
+
+.quantityValue {
+  width: 60px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $text-md;
+  font-weight: $font-semibold;
+  color: $text-primary;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $white;
+  user-select: none;
+
+  @include mobile {
+    width: 52px;
+    height: 36px;
+  }
+}

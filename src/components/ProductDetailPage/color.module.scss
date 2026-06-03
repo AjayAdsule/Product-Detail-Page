@@ -1,0 +1,63 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
+.colorSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.sectionLabel {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-primary;
+  margin: 0;
+  display: flex;
+  gap: $spacing-xs;
+
+  span {
+    font-weight: $font-regular;
+    color: $text-secondary;
+  }
+}
+
+.swatches {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  @include mobile {
+    gap: $spacing-sm;
+  }
+}
+
+.swatch {
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &.swatchActive {
+    border-color: $primary;
+    box-shadow:
+      0 0 0 2px $white,
+      0 0 0 4px $primary;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+}

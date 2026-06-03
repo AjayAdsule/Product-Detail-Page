@@ -1,11 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { ProductDetailPageProvider } from '../../stores/ProductDetails/ProductDetailConext';
+import { ProductDetailPageProvider } from '../../stores/ProductDetails/ProductDetailProvider';
 import ProductInfo from '../../components/ProductDetailPage/ProductInfo';
 import ImageGallery from '../../components/ProductDetailPage/ImageGallery';
 import ProductDetails from '../../components/ProductDetailPage/ProductDetails';
-
+import { z } from 'zod';
 export const Route = createFileRoute('/product/$productId')({
   component: RouteComponent,
+  validateSearch: z.object({
+    selectedColor: z.string().optional(),
+    selectedSize: z.string().optional(),
+    quantity: z.number().optional().default(1),
+  }),
 });
 
 function RouteComponent() {
