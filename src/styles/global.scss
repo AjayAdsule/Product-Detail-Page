@@ -35,7 +35,7 @@ a {
 .container {
   max-width: $container-width;
   margin: 0 auto;
-  padding: $spacing-md;
+  padding: $spacing-lg;
 
   @include mobile {
     padding: 0 $spacing-md;

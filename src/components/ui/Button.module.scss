@@ -1,0 +1,103 @@
+@use './../../styles/tokens' as *;
+@use './../../styles/mixins' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  line-height: 1;
+
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.15s ease,
+    transform 0.1s ease;
+
+  &:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.btn--primary {
+  width: 100%;
+  padding: $spacing-md $spacing-lg;
+  background-color: $primary;
+  color: $white;
+  border-color: $primary;
+  font-size: $text-md;
+  font-weight: $font-semibold;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-hover;
+    border-color: $primary-hover;
+  }
+}
+
+.btn--ghost {
+  padding: $spacing-sm $spacing-md;
+  min-width: 52px;
+  background-color: $white;
+  color: $text-primary;
+  border-color: $border;
+  font-size: $text-sm;
+
+  &:hover:not(:disabled):not(.btn--active) {
+    border-color: $primary;
+    color: $primary;
+  }
+
+  &.btn--active {
+    background-color: $primary;
+    color: $white;
+    border-color: $primary;
+    font-weight: $font-semibold;
+  }
+}
+
+.btn--icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background-color: $white;
+  color: $text-primary;
+  border-color: $border;
+  border-radius: $radius-sm;
+  font-size: $text-lg;
+
+  &:hover:not(:disabled) {
+    background-color: $surface;
+    border-color: $text-secondary;
+  }
+}
+
+.btn--low-stock {
+  border-color: $warning;
+  color: $text-primary;
+}
+
+.btn--sold-out {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  text-decoration: line-through;
+}

@@ -1,0 +1,148 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.brand {
+  font-size: $text-xs;
+  font-weight: $font-semibold;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.title {
+  font-size: $text-2xl;
+  font-weight: $font-bold;
+  color: $text-primary;
+  line-height: 1.2;
+  margin: $spacing-xs 0 0;
+}
+
+.priceBlock {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.salePrice {
+  font-size: $text-xl;
+  font-weight: $font-bold;
+  color: $warning;
+}
+
+.originalPrice {
+  font-size: $text-md;
+  font-weight: $font-regular;
+  color: $text-secondary;
+  text-decoration: line-through;
+}
+
+.regularPrice {
+  font-size: $text-xl;
+  font-weight: $font-bold;
+  color: $text-primary;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid $border;
+  margin: 0;
+}
+
+.sectionLabel {
+  font-size: $text-sm;
+  font-weight: $font-semibold;
+  color: $text-primary;
+  margin: 0 0 $spacing-sm;
+
+  span {
+    font-weight: $font-regular;
+    color: $text-secondary;
+    margin-left: $spacing-xs;
+  }
+}
+
+.swatches {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-full;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    transform 0.15s ease;
+  padding: 0;
+  background: none;
+
+  &:hover {
+    transform: scale(1.08);
+  }
+
+  &.swatchActive {
+    border-color: $warning;
+    outline: 2px solid $warning;
+    outline-offset: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary;
+    outline-offset: 3px;
+  }
+}
+
+.sizes {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+}
+
+.lowStockNote {
+  font-size: $text-xs;
+  color: $warning;
+  margin-top: $spacing-xs;
+}
+
+.quantityBlock {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.quantityValue {
+  width: 48px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-primary;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $white;
+  user-select: none;
+}
+
+.cartSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.deliveryNote {
+  font-size: $text-xs;
+  color: $text-secondary;
+  text-align: center;
+}
