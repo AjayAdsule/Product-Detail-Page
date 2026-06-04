@@ -1,0 +1,62 @@
+@use './tokens' as *;
+@use './mixins' as *;
+
+.notFound {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xl;
+}
+
+.content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.code {
+  font-size: 120px;
+  font-weight: $font-bold;
+  color: $primary;
+  line-height: 1;
+
+  @include mobile {
+    font-size: 80px;
+  }
+}
+
+.title {
+  margin-top: $spacing-md;
+  font-size: $text-2xl;
+  font-weight: $font-bold;
+  color: $text-primary;
+}
+
+.description {
+  margin-top: $spacing-md;
+  color: $text-secondary;
+  line-height: 1.6;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: $spacing-xl;
+
+  padding: $spacing-sm $spacing-lg;
+
+  background: $primary;
+  color: $white;
+
+  border-radius: $radius-md;
+
+  font-weight: $font-semibold;
+
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
