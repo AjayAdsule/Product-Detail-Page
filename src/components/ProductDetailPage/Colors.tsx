@@ -5,7 +5,6 @@ import type { ProductColor } from '../../types/product';
 const Colors = ({ colors }: { colors: ProductColor[] }) => {
   const navigate = ProductRoute.useNavigate();
   const { selectedColor } = ProductRoute.useSearch();
-  console.log({ colors });
 
   const handleColorSelect = (colorName: string) => {
     navigate({
