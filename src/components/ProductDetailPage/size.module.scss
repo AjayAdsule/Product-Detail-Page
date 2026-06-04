@@ -1,6 +1,12 @@
 @use '../../styles/tokens' as *;
 @use '../../styles/mixins' as *;
 
+.sectionLabel {
+  @include mobile {
+    font-size: $text-xs;
+  }
+}
+
 .sizeSection {
   display: flex;
   flex-direction: column;
@@ -21,7 +27,6 @@
   align-items: center;
   justify-content: center;
   font-size: $text-sm;
-  font-weight: $font-semibold;
   border: 1px solid $border;
   border-radius: $radius-sm;
   background: $white;

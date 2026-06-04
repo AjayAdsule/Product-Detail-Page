@@ -1,38 +1,60 @@
 import { useState } from 'react';
 import styles from './ProductDetails.module.scss';
-
-interface ProductSpecification {
-  label: string;
-  value: string;
-}
-
-interface Review {
-  id: number;
-  name: string;
-  rating: number;
-  comment: string;
-}
-
-interface ProductDetailsProps {
-  description: string;
-  specifications: ProductSpecification[];
-  reviews: Review[];
-}
+import { useProductDetailPageContext } from '../../stores/ProductDetails/useProductDetailContext';
 
 const tabs = ['description', 'specifications', 'reviews'] as const;
 
 type Tab = (typeof tabs)[number];
 
-const ProductDetails = ({ description, specifications, reviews }: ProductDetailsProps) => {
+const specifications = [
+  {
+    label: 'Capacity',
+    value: '65 Liters',
+  },
+  {
+    label: 'Weight',
+    value: '4.2 lbs',
+  },
+  {
+    label: 'Material',
+    value: '210D Ripstop Nylon',
+  },
+  {
+    label: 'Waterproof Rating',
+    value: 'IPX4',
+  },
+];
+const reviews = [
+  {
+    id: 1,
+    name: 'Sarah Johnson',
+    rating: 5,
+    comment: 'Excellent backpack. Comfortable even on long hikes.',
+  },
+  {
+    id: 2,
+    name: 'Mark Peterson',
+    rating: 4,
+    comment: 'Great build quality and storage options.',
+  },
+  {
+    id: 3,
+    name: 'Emily Davis',
+    rating: 5,
+    comment: 'Used it on a 5-day trek and it performed perfectly.',
+  },
+];
+
+const ProductDetails = () => {
   const [activeTab, setActiveTab] = useState<Tab>('description');
   const [openAccordion, setOpenAccordion] = useState<Tab>('description');
-
+  const { product } = useProductDetailPageContext();
   const renderContent = (tab: Tab) => {
     switch (tab) {
       case 'description':
         return (
           <div className={styles.description}>
-            <p>{description}</p>
+            <p>{product?.description}</p>
           </div>
         );
 
@@ -67,8 +89,6 @@ const ProductDetails = ({ description, specifications, reviews }: ProductDetails
 
   return (
     <section className={styles.details}>
-      {/* Desktop */}
-
       <div className={styles.desktop}>
         <div className={styles.tabs}>
           {tabs.map((tab) => (
@@ -84,8 +104,6 @@ const ProductDetails = ({ description, specifications, reviews }: ProductDetails
 
         <div className={styles.content}>{renderContent(activeTab)}</div>
       </div>
-
-      {/* Mobile */}
 
       <div className={styles.mobile}>
         {tabs.map((tab) => (

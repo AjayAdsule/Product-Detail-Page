@@ -1,7 +1,8 @@
 import styles from './size.module.scss';
 import { Route as ProductRoute } from './../../routes/product/$productId';
+import type { ProductSize } from '../../types/product';
 
-const Size = ({ sizes, selectedSizeData }) => {
+const Size = ({ sizes, selectedSizeData }: { sizes: ProductSize[]; selectedSizeData: string }) => {
   const navigate = ProductRoute.useNavigate();
   const { selectedSize } = ProductRoute.useSearch();
 

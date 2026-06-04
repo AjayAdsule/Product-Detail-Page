@@ -1,96 +1,80 @@
 import { useState } from 'react';
-import { Star, Truck, RotateCcw, Shield, Lock } from 'lucide-react';
+import { Star } from 'lucide-react';
 import styles from './ProductInfo.module.scss';
 import { useProductDetailPageContext } from '../../stores/ProductDetails/useProductDetailContext';
 import Colors from './Colors';
 import Size from './Size';
 import Quantity from './Quantity';
 import { Route as ProductRoute } from './../../routes/product/$productId';
-type StockStatus = 'available' | 'low-stock' | 'sold-out';
+import DeliverySection from './DeliverySection';
+import ProductInfoSkeleton from './ProductInfoSkeleton';
+
 type ButtonState = 'default' | 'loading' | 'success';
-
-interface ColorOption {
-  name: string;
-  hex: string;
-}
-
-interface SizeOption {
-  label: string;
-  status: StockStatus;
-  stock?: number;
-}
 
 interface ProductInfoProps {
   brand: string;
-  title: string;
-  price: number;
   originalPrice?: number;
   rating?: number;
-  reviewCount?: number;
-  colors: ColorOption[];
-  sizes: SizeOption[];
   deliveryEstimate?: string;
-  onAddToCart?: (quantity: number, color: string, size: string) => void;
 }
 
-const ProductInfo = ({
-  brand,
-
-  originalPrice = 999,
-  rating = 4.8,
-
-  colors,
-  sizes,
-  deliveryEstimate = 'Delivery in 2–3 business days',
-  onAddToCart,
-}: ProductInfoProps) => {
-  // const [selectedColor, setSelectedColor] = useState<string>(colors[0]?.name ?? '');
-  // const [selectedSize, setSelectedSize] = useState<string>('');
-  const [quantity, setQuantity] = useState(1);
+const ProductInfo = ({ brand, originalPrice = 999 }: ProductInfoProps) => {
   const [buttonState, setButtonState] = useState<ButtonState>('default');
 
-  const { product } = useProductDetailPageContext();
-
-  // const selectedSizeData = product?.sizes.find((s) => s.label === selectedSize);
-  // const maxStock = selectedSizeData?.stock ?? 1;
-  // const isSoldOut = selectedSizeData?.status === 'sold-out';
-  // const isLowStock = selectedSizeData?.status === 'low-stock';
-
+  const { product, cart, handleAddToCart: addToCart, isLoading } = useProductDetailPageContext();
+  const { selectedColor, selectedSize, quantity = 1 } = ProductRoute.useSearch();
   const discountPercent = originalPrice
     ? Math.round(((originalPrice - product?.price) / originalPrice) * 100)
     : 0;
 
+  const isInCart = cart.some(
+    (item) =>
+      item.productId === product.id && item.color === selectedColor && item.size === selectedSize
+  );
+
   const handleAddToCart = async () => {
-    if (!selectedSize || isSoldOut) return;
+    if (!selectedColor || !selectedSize || !selectedSizeData) return;
 
     setButtonState('loading');
 
     try {
-      // Simulate API call
-      if (onAddToCart) {
-        await Promise.all([
-          new Promise((resolve) => setTimeout(resolve, 800)), // simulate delay
-          onAddToCart(quantity, selectedColor, selectedSize),
-        ]);
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 800));
-      }
+      addToCart({
+        productId: String(product.id),
+        productName: product.title as string,
+        color: selectedColor,
+        size: selectedSize,
+        quantity,
+        price: product.price as number,
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
       setButtonState('success');
-      setTimeout(() => setButtonState('default'), 2000);
+
+      setTimeout(() => {
+        setButtonState('default');
+      }, 2000);
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      console.error(error);
       setButtonState('default');
     }
   };
-
-  const { selectedColor, selectedSize } = ProductRoute.useSearch();
 
   const selectedVariant = product?.variants?.find(
     (variant) => variant.color.name === selectedColor
   );
 
   const selectedSizeData = selectedVariant?.sizes.find((size) => size.label === selectedSize);
+
+  const getDeliveryEstimate = (stock?: number) => {
+    if (!stock || stock === 0) return 'Out of stock';
+    if (stock <= 2) return 'Delivered in 4-5 days';
+    if (stock <= 5) return 'Delivered in 3 days';
+
+    return 'Delivered in 2 days';
+  };
+
+  const deliveryEstimate = getDeliveryEstimate(selectedSizeData?.stock);
 
   const renderStars = (count: number) => {
     return (
@@ -108,20 +92,32 @@ const ProductInfo = ({
   };
 
   const getButtonLabel = () => {
-    if (buttonState === 'loading') return <span className={styles.spinner} />;
-    if (buttonState === 'success') return '✓ Added to Cart';
-    return '🛒 Add to Cart';
+    if (buttonState === 'loading') return 'Adding...';
+    if (buttonState === 'success') return '✓ Added';
+    if (isInCart) return 'Already in Cart';
+
+    return 'Add to Cart';
   };
+
+  const allSizes = [
+    ...new Map(
+      product.variants.flatMap((variant) => variant.sizes).map((size) => [size.label, size])
+    ).values(),
+  ];
+
+  if (isLoading) {
+    return <ProductInfoSkeleton />;
+  }
 
   return (
     <div className={styles.productInfo}>
       <div className={styles.header}>
         <p className={styles.brand}>{brand}</p>
-        <h1 className={styles.title}>{product.title}</h1>
+        <h2 className={styles.title}>{product.title}</h2>
 
-        {rating && (
+        {product?.rating && (
           <div className={styles.rating}>
-            {renderStars(rating)}
+            {renderStars(product?.rating?.rate)}
             <span className={styles.ratingScore}>{product?.rating?.rate}</span>
             <span className={styles.ratingCount}>({product?.rating?.count} reviews)</span>
           </div>
@@ -136,7 +132,9 @@ const ProductInfo = ({
             <>
               <span className={styles.salePrice}>&#8377;{product?.price?.toFixed(2)}</span>
               <span className={styles.originalPrice}>&#8377;{originalPrice.toFixed(2)}</span>
-              {discountPercent > 0 && <span className={styles.badge}>Save {discountPercent}%</span>}
+              {discountPercent > 0 && (
+                <span className={styles.discountBadge}>Save {discountPercent}%</span>
+              )}
             </>
           ) : (
             <span className={styles.regularPrice}>&#8377;{product?.price?.toFixed(2)}</span>
@@ -147,57 +145,27 @@ const ProductInfo = ({
       <hr className={styles.divider} />
 
       <Colors colors={product.variants.map((variant) => variant.color)} />
-
-      <Size sizes={selectedVariant?.sizes ?? []} selectedSizeData={selectedSizeData} />
-
-      <Quantity quantity={quantity} maxStock={selectedSizeData?.stock ?? 0} />
-
+      <hr className={styles.divider} />
+      <Size
+        selectedSizeData={selectedSizeData}
+        sizes={selectedColor ? (selectedVariant?.sizes ?? []) : allSizes}
+      />
+      <hr className={styles.divider} />
+      <Quantity maxStock={selectedSizeData?.stock ?? 0} />
+      <hr className={styles.divider} />
+      <DeliverySection deliveryEstimate={deliveryEstimate} selectedSizeData={selectedSizeData} />
       <div className={styles.cartSection}>
         <button
           className={`${styles.addToCartButton} ${
             buttonState === 'loading' ? styles.loading : ''
           } ${buttonState === 'success' ? styles.success : ''}`}
           onClick={handleAddToCart}
-          // disabled={!selectedSize || isSoldOut || buttonState === 'loading'}
+          disabled={!selectedSize || buttonState === 'loading'}
           aria-label="Add product to cart"
         >
           {getButtonLabel()}
         </button>
-
-        {/* {deliveryEstimate && !isSoldOut && (
-          <p className={styles.deliveryNote}>{deliveryEstimate}</p>
-        )} */}
       </div>
-
-      <hr className={styles.divider} />
-
-      {/* DELIVERY SECTION */}
-      {/* {!isSoldOut && (
-        <div className={styles.deliverySection}>
-          <div className={styles.deliveryEstimate}>
-            <Truck className={styles.deliveryIcon} size={20} />
-            <div className={styles.deliveryInfo}>
-              <p className={styles.deliveryDate}>{deliveryEstimate}</p>
-              <p className={styles.deliveryNote}>Free shipping on orders over $100</p>
-            </div>
-          </div>
-
-          <div className={styles.trustBadges}>
-            <div className={styles.badge}>
-              <RotateCcw className={styles.badgeIcon} size={20} />
-              <p className={styles.badgeText}>Free Returns</p>
-            </div>
-            <div className={styles.badge}>
-              <Shield className={styles.badgeIcon} size={20} />
-              <p className={styles.badgeText}>2-Year Warranty</p>
-            </div>
-            <div className={styles.badge}>
-              <Lock className={styles.badgeIcon} size={20} />
-              <p className={styles.badgeText}>Secure Checkout</p>
-            </div>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };

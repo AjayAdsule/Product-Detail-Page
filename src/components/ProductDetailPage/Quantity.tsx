@@ -1,7 +1,7 @@
 import styles from './quantity.module.scss';
 import { Route as ProductRoute } from './../../routes/product/$productId';
 
-const Quantity = ({ maxStock }) => {
+const Quantity = ({ maxStock }: { maxStock: number }) => {
   const navigate = ProductRoute.useNavigate();
 
   const { selectedSize, quantity = 1 } = ProductRoute.useSearch();

@@ -19,6 +19,9 @@
   &:hover .mainImage {
     transform: scale(1.06);
   }
+  @include mobile {
+    aspect-ratio: 4 / 3;
+  }
 }
 
 .mainImage {

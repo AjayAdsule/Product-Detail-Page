@@ -19,6 +19,9 @@
     font-weight: $font-regular;
     color: $text-secondary;
   }
+  @include mobile {
+    font-size: $text-xs;
+  }
 }
 
 .swatches {
@@ -59,5 +62,9 @@
   &:focus-visible {
     outline: 2px solid $primary;
     outline-offset: 2px;
+  }
+  @include mobile {
+    width: 30px;
+    height: 30px;
   }
 }

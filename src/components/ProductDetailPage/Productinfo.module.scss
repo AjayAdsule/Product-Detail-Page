@@ -4,13 +4,19 @@
 .productInfo {
   display: flex;
   flex-direction: column;
-  gap: $spacing-lg;
+  gap: $spacing-md;
   padding: $spacing-lg;
   background: $white;
 
   @include mobile {
     padding: $spacing-md;
-    gap: $spacing-md;
+    gap: $spacing-sm;
+  }
+}
+
+.desktopDivider {
+  @include mobile {
+    display: none;
   }
 }
 
@@ -35,9 +41,13 @@
   color: $text-primary;
   line-height: 1.2;
   margin: 0;
+  max-width: 100%;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
 
   @include mobile {
-    font-size: $text-xl;
+    font-size: $text-md;
   }
 }
 
@@ -96,7 +106,7 @@
   color: $primary;
 
   @include mobile {
-    font-size: $text-2xl;
+    font-size: $text-md;
   }
 }
 
@@ -121,21 +131,22 @@
   }
 }
 
-.badge {
+.discountBadge {
   padding: $spacing-xs $spacing-sm;
-  background: $error;
-  color: $white;
+  color: $primary;
   font-size: $text-xs;
   font-weight: $font-semibold;
   border-radius: $radius-full;
 }
 
-// CART SECTION
 .cartSection {
   display: flex;
   flex-direction: column;
   gap: $spacing-md;
   padding-top: $spacing-md;
+  @include mobile {
+    width: 70%;
+  }
 }
 
 .addToCartButton {
@@ -164,8 +175,7 @@
   }
 
   &:disabled {
-    background: $surface;
-    color: $text-secondary;
+    background: $primary;
     cursor: not-allowed;
     box-shadow: none;
   }
@@ -180,7 +190,7 @@
   }
 
   @include mobile {
-    height: 44px;
+    height: 40px;
     font-size: $text-sm;
   }
 }
@@ -199,82 +209,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-// DELIVERY SECTION
-.deliverySection {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
-  padding-top: $spacing-md;
-  border-top: 1px solid $border;
-}
-
-.deliveryEstimate {
-  display: flex;
-  align-items: flex-start;
-  gap: $spacing-md;
-}
-
-.deliveryIcon {
-  width: 20px;
-  height: 20px;
-  color: $primary;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.deliveryInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.deliveryDate {
-  font-size: $text-sm;
-  font-weight: $font-medium;
-  color: $text-primary;
-  margin: 0;
-}
-
-.deliveryNote {
-  font-size: $text-xs;
-  color: $text-secondary;
-  margin: 0;
-}
-
-// TRUST BADGES SECTION
-.trustBadges {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: $spacing-md;
-
-  @include mobile {
-    grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-sm;
-  }
-}
-
-.badge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: $spacing-sm;
-  padding: $spacing-md;
-  background: $surface;
-  border-radius: $radius-sm;
-  text-align: center;
-}
-
-.badgeIcon {
-  width: 20px;
-  height: 20px;
-  color: $primary;
-}
-
-.badgeText {
-  font-size: $text-xs;
-  font-weight: $font-medium;
-  color: $text-primary;
-  margin: 0;
 }

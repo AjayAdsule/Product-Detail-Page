@@ -1,0 +1,84 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/mixins' as *;
+
+.deliverySection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border;
+}
+
+.deliveryEstimate {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+}
+
+.deliveryIcon {
+  width: 20px;
+  height: 20px;
+  color: $primary;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.deliveryInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deliveryDate {
+  font-size: $text-sm;
+  font-weight: $font-medium;
+  color: $text-primary;
+  margin: 0;
+}
+
+.deliveryNote {
+  font-size: $text-xs;
+  color: $text-secondary;
+  margin: 0;
+}
+
+.trustBadges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+
+  @include mobile {
+    display: flex;
+    overflow-x: auto;
+    gap: $spacing-sm;
+    padding-bottom: $spacing-xs;
+
+    .badge {
+      flex: 0 0 100px;
+    }
+  }
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: $surface;
+  border-radius: $radius-sm;
+  text-align: center;
+}
+
+.badgeIcon {
+  width: 20px;
+  height: 20px;
+  color: $primary;
+}
+
+.badgeText {
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $text-primary;
+  margin: 0;
+}

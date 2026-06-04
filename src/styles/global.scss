@@ -35,9 +35,10 @@ a {
 .container {
   max-width: $container-width;
   margin: 0 auto;
-  padding: $spacing-lg;
+  padding: $spacing-md;
 
   @include mobile {
+    overflow-x: hidden;
     padding: 0 $spacing-md;
   }
 }
@@ -46,6 +47,7 @@ a {
   display: grid;
   grid-template-columns: 55fr 45fr;
   gap: $spacing-xl;
+  margin-top: $spacing-md;
 }
 
 @include mobile {
