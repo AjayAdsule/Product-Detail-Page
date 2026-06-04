@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Star } from 'lucide-react';
 import styles from './Productinfo.module.scss';
 import { useProductDetailPageContext } from '../../stores/ProductDetails/useProductDetailContext';
@@ -18,19 +18,47 @@ interface ProductInfoProps {
   deliveryEstimate?: string;
 }
 
+const renderStars = (count: number) => {
+  return (
+    <div className={styles.stars}>
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          className={styles.star}
+          size={16}
+          fill={i < Math.floor(count) ? 'currentColor' : 'none'}
+        />
+      ))}
+    </div>
+  );
+};
+
 const ProductInfo = ({ brand, originalPrice = 999 }: ProductInfoProps) => {
   const [buttonState, setButtonState] = useState<ButtonState>('default');
 
   const { product, cart, handleAddToCart: addToCart, isLoading } = useProductDetailPageContext();
   const { selectedColor, selectedSize, quantity = 1 } = ProductRoute.useSearch();
-  const discountPercent = originalPrice
-    ? Math.round(((originalPrice - product?.price) / originalPrice) * 100)
-    : 0;
+  const discountPercent =
+    originalPrice && product?.price
+      ? Math.round(((originalPrice - product.price) / originalPrice) * 100)
+      : 0;
 
-  const isInCart = cart.some(
-    (item) =>
-      item.productId === product.id && item.color === selectedColor && item.size === selectedSize
+  const isInCart = useMemo(
+    () =>
+      cart.some(
+        (item) =>
+          item.productId === product.id &&
+          item.color === selectedColor &&
+          item.size === selectedSize
+      ),
+    [cart, product.id, selectedColor, selectedSize]
   );
+
+  const selectedVariant = product?.variants?.find(
+    (variant) => variant.color.name === selectedColor
+  );
+
+  const selectedSizeData = selectedVariant?.sizes.find((size) => size.label === selectedSize);
 
   const handleAddToCart = async () => {
     if (!selectedColor || !selectedSize || !selectedSizeData) return;
@@ -60,37 +88,6 @@ const ProductInfo = ({ brand, originalPrice = 999 }: ProductInfoProps) => {
     }
   };
 
-  const selectedVariant = product?.variants?.find(
-    (variant) => variant.color.name === selectedColor
-  );
-
-  const selectedSizeData = selectedVariant?.sizes.find((size) => size.label === selectedSize);
-
-  const getDeliveryEstimate = (stock?: number) => {
-    if (!stock || stock === 0) return 'Out of stock';
-    if (stock <= 2) return 'Delivered in 4-5 days';
-    if (stock <= 5) return 'Delivered in 3 days';
-
-    return 'Delivered in 2 days';
-  };
-
-  const deliveryEstimate = getDeliveryEstimate(selectedSizeData?.stock);
-
-  const renderStars = (count: number) => {
-    return (
-      <div className={styles.stars}>
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={styles.star}
-            size={16}
-            fill={i < Math.floor(count) ? 'currentColor' : 'none'}
-          />
-        ))}
-      </div>
-    );
-  };
-
   const getButtonLabel = () => {
     if (buttonState === 'loading') return 'Adding...';
     if (buttonState === 'success') return '✓ Added';
@@ -99,11 +96,14 @@ const ProductInfo = ({ brand, originalPrice = 999 }: ProductInfoProps) => {
     return 'Add to Cart';
   };
 
-  const allSizes = [
-    ...new Map(
-      product.variants.flatMap((variant) => variant.sizes).map((size) => [size.label, size])
-    ).values(),
-  ];
+  const allSizes = useMemo(
+    () => [
+      ...new Map(
+        product.variants.flatMap((v) => v.sizes).map((size) => [size.label, size])
+      ).values(),
+    ],
+    [product.variants]
+  );
 
   if (isLoading) {
     return <ProductInfoSkeleton />;
@@ -153,7 +153,7 @@ const ProductInfo = ({ brand, originalPrice = 999 }: ProductInfoProps) => {
       <hr className={styles.divider} />
       <Quantity maxStock={selectedSizeData?.stock ?? 0} />
       <hr className={styles.divider} />
-      <DeliverySection deliveryEstimate={deliveryEstimate} selectedSizeData={selectedSizeData} />
+      <DeliverySection />
       <div className={styles.cartSection}>
         <button
           className={`${styles.addToCartButton} ${
