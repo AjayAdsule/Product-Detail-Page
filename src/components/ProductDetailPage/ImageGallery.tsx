@@ -48,6 +48,8 @@ const ImageGallery = () => {
           src={productImages[activeIndex].src}
           alt={productImages[activeIndex].alt}
           className={styles.mainImage}
+          fetchPriority="high"
+          loading="eager"
         />
       </div>
 
