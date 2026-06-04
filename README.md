@@ -4,7 +4,7 @@ A modern product detail page built with React, TypeScript, and Vite — featurin
 
 ## 🔗 Live Demo
 
-👉 [https://product-detail-page-wv6d.vercel.app/product/1](https://product-detail-page-wv6d.vercel.app/product/1)
+👉 [https://product-detail-page-wv6d.vercel.app/product/1](https://product-detail-page-wv6d.vercel.app/)
 
 ---
 
