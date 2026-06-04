@@ -9,8 +9,6 @@ const Size = ({
   sizes: ProductSize[];
   selectedSizeData: ProductSize;
 }) => {
-  console.log({ sizes, selectedSizeData });
-
   const navigate = ProductRoute.useNavigate();
   const { selectedSize } = ProductRoute.useSearch();
 
