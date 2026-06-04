@@ -15,8 +15,10 @@ export const Route = createFileRoute('/product/$productId')({
 });
 
 function RouteComponent() {
+  const { productId } = Route.useParams();
+
   return (
-    <ProductDetailPageProvider productId={1}>
+    <ProductDetailPageProvider productId={productId}>
       <main className="container">
         <Navbar />
         <div className="pdp__layout">
