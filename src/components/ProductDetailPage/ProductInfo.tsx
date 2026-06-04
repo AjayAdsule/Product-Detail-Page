@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Star } from 'lucide-react';
-import styles from './ProductInfo.module.scss';
+import styles from './Productinfo.module.scss';
 import { useProductDetailPageContext } from '../../stores/ProductDetails/useProductDetailContext';
 import Colors from './Colors';
 import Size from './Size';
