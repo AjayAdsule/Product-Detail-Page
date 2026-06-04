@@ -1,5 +1,5 @@
 import Skeleton from '../ui/Skeleton';
-import styles from './ProductInfoSkeleton.module.scss';
+import styles from './productinfoskeleton.module.scss';
 
 const ProductInfoSkeleton = () => {
   return (
